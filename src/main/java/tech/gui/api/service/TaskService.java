@@ -28,6 +28,13 @@ public class TaskService {
         repository.deleteAll();
     }
 
+    public void delete(Long id) {
+        Task task = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+
+        repository.delete(task);
+    }
+
     public Task getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(

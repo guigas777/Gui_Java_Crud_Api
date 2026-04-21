@@ -42,4 +42,10 @@ public class TaskController {
         service.deleteAll();
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.ok("Tarefa excluída com sucesso");
+    }
 }
