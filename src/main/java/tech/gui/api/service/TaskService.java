@@ -51,4 +51,10 @@ public class TaskService {
         return repository.save(existing);
     }
 
+    public Task markAsCompleted(Long id) {
+        Task task = getById(id);
+        task.setCompleted(true);
+        return repository.save(task);
+    }
+
 }
