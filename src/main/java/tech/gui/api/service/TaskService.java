@@ -35,4 +35,13 @@ public class TaskService {
                 ));
     }
 
+    public Task update(Long id, Task task) {
+        Task existing = getById(id);
+
+        existing.setDescription(task.getDescription());
+        existing.setCompleted(task.isCompleted());
+
+        return repository.save(existing);
+    }
+
 }
