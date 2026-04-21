@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.gui.api.entity.Task;
 import tech.gui.api.service.TaskService;
+import tech.gui.api.dto.TaskDTO;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -28,13 +30,13 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task){
-        return ResponseEntity.ok(service.create(task));
+    public ResponseEntity<Task> create(@Valid @RequestBody TaskDTO dto) {
+        return ResponseEntity.ok(service.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task task) {
-        return ResponseEntity.ok(service.update(id, task));
+    public ResponseEntity<Task> update(@PathVariable Long id, @Valid @RequestBody TaskDTO dto) {
+        return ResponseEntity.ok(service.update(id, dto));
     }
 
     @PatchMapping("/{id}/complete")

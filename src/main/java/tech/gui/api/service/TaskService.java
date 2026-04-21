@@ -6,6 +6,7 @@ import tech.gui.api.repository.TaskRepository;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import java.util.List;
+import tech.gui.api.dto.TaskDTO;
 
 @Service
 public class TaskService {
@@ -20,7 +21,11 @@ public class TaskService {
         return repository.findAll();
     }
 
-    public Task create(Task task) {
+    public Task create(TaskDTO dto) {
+        Task task = new Task();
+        task.setDescription(dto.getDescription());
+        task.setCompleted(false);
+
         return repository.save(task);
     }
 
@@ -30,7 +35,9 @@ public class TaskService {
 
     public void delete(Long id) {
         Task task = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Task não encontrada"
+                ));
 
         repository.delete(task);
     }
@@ -42,14 +49,14 @@ public class TaskService {
                 ));
     }
 
-    public Task update(Long id, Task task) {
+    public Task update(Long id, TaskDTO dto) {
         Task existing = getById(id);
 
-        existing.setDescription(task.getDescription());
-        existing.setCompleted(task.isCompleted());
+        existing.setDescription(dto.getDescription());
 
         return repository.save(existing);
     }
+
 
     public Task markAsCompleted(Long id) {
         Task task = getById(id);
