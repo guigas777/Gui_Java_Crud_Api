@@ -7,6 +7,9 @@ import tech.gui.api.service.TaskService;
 import tech.gui.api.dto.TaskDTO;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
@@ -20,12 +23,11 @@ public class TaskController {
         this.service = service;
     }
 
-    @Operation(summary = "Lista todas as tarefas")
+    @Operation(summary = "Lista tarefas com paginação e ordenação")
     @GetMapping
-    public List<Task> listTasks() {
-        return service.listAll();
+    public Page<TaskDTO> list(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        return service.list(pageable);
     }
-
     @Operation(summary = "Buscar tarefa por ID")
     @GetMapping("/{id}")
     public ResponseEntity<Task> getById(@PathVariable Long id) {

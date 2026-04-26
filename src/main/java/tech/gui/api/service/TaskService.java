@@ -6,6 +6,8 @@ import tech.gui.api.repository.TaskRepository;
 import java.util.List;
 import tech.gui.api.dto.TaskDTO;
 import tech.gui.api.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TaskService {
@@ -16,8 +18,9 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public List<Task> listAll() {
-        return repository.findAll();
+    public Page<TaskDTO> list(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(task -> new TaskDTO(task));
     }
 
     public Task create(TaskDTO dto) {
