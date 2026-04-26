@@ -8,6 +8,7 @@ import tech.gui.api.dto.TaskDTO;
 import tech.gui.api.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.gui.api.exception.InvalidPageSizeException;
 
 @Service
 public class TaskService {
@@ -19,6 +20,11 @@ public class TaskService {
     }
 
     public Page<TaskDTO> list(Pageable pageable) {
+
+        if (pageable.getPageSize() > 50) {
+            throw new InvalidPageSizeException("Tamanho máximo da página é 50");
+        }
+
         return repository.findAll(pageable)
                 .map(task -> new TaskDTO(task));
     }

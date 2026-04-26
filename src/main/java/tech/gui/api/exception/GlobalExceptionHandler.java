@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidPageSizeException.class)
+    public ResponseEntity<String> handleInvalidPageSize(InvalidPageSizeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
 }
