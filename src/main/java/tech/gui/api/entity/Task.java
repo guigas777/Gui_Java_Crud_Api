@@ -10,9 +10,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
-    private boolean completed = false;
+    @Column(nullable = false)
+    private Boolean completed = false;
 
     public Long getId() {
         return id;
@@ -30,11 +32,12 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isCompleted() {
+    public Boolean getCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
+
 }
