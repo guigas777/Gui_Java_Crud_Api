@@ -3,6 +3,7 @@ package tech.gui.api.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.gui.api.entity.Task;
+import tech.gui.api.entity.Priority;
 import tech.gui.api.service.TaskService;
 import tech.gui.api.dto.TaskDTO;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import tech.gui.api.dto.PriorityDTO;
+import java.util.Map;
 
 import java.util.List;
 
@@ -65,4 +68,17 @@ public class TaskController {
         service.delete(id);
         return ResponseEntity.ok("Tarefa excluída com sucesso");
     }
+
+
+    @Operation(summary = "Atualiza prioridade da tarefa")
+    @PatchMapping("/{id}/priority")
+    public ResponseEntity<TaskDTO> updatePriority(
+            @PathVariable Long id,
+            @RequestBody PriorityDTO dto) {
+
+        Task updated = service.updatePriority(id, dto.getPriority());
+
+        return ResponseEntity.ok(new TaskDTO(updated));
+    }
+
 }
