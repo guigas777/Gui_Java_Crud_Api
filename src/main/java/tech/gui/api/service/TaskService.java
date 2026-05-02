@@ -2,6 +2,7 @@ package tech.gui.api.service;
 
 import org.springframework.stereotype.Service;
 import tech.gui.api.entity.Task;
+import tech.gui.api.entity.Priority;
 import tech.gui.api.repository.TaskRepository;
 import java.util.List;
 import tech.gui.api.dto.TaskDTO;
@@ -62,6 +63,15 @@ public class TaskService {
     public Task markAsCompleted(Long id) {
         Task task = getById(id);
         task.setCompleted(true);
+        return repository.save(task);
+    }
+
+    public Task updatePriority(Long id, Priority priority) {
+        Task task = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task não encontrada"));
+
+        task.setPriority(priority);
+
         return repository.save(task);
     }
 

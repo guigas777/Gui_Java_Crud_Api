@@ -40,4 +40,16 @@ public class Task {
         this.completed = completed;
     }
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Priority priority = Priority.LOW;
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
 }
