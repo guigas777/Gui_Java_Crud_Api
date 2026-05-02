@@ -3,7 +3,6 @@ package tech.gui.api.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.gui.api.entity.Task;
-import tech.gui.api.entity.Priority;
 import tech.gui.api.service.TaskService;
 import tech.gui.api.dto.TaskDTO;
 import jakarta.validation.Valid;
@@ -12,9 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import tech.gui.api.dto.PriorityDTO;
-import java.util.Map;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
@@ -33,26 +29,26 @@ public class TaskController {
     }
     @Operation(summary = "Buscar tarefa por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+    public ResponseEntity<TaskDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(new TaskDTO(service.getById(id)));
     }
 
     @Operation(summary = "Cria uma tarefa")
     @PostMapping
-    public ResponseEntity<Task> create(@Valid @RequestBody TaskDTO dto) {
-        return ResponseEntity.ok(service.create(dto));
+    public ResponseEntity<TaskDTO> create(@Valid @RequestBody TaskDTO dto) {
+        return ResponseEntity.ok(new TaskDTO(service.create(dto)));
     }
 
     @Operation(summary = "Atualiza uma tarefa")
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@PathVariable Long id, @Valid @RequestBody TaskDTO dto) {
-        return ResponseEntity.ok(service.update(id, dto));
+    public ResponseEntity<TaskDTO> update(@PathVariable Long id, @Valid @RequestBody TaskDTO dto) {
+        return ResponseEntity.ok(new TaskDTO(service.update(id, dto)));
     }
 
     @Operation(summary = "Marca tarefa como completa")
     @PatchMapping("/{id}/complete")
-    public ResponseEntity<Task> complete(@PathVariable Long id) {
-        return ResponseEntity.ok(service.markAsCompleted(id));
+    public ResponseEntity<TaskDTO> complete(@PathVariable Long id) {
+        return ResponseEntity.ok(new TaskDTO(service.markAsCompleted(id)));
     }
 
     @Operation(summary = "Deleta todas as tarefas")
